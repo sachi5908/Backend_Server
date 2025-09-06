@@ -10,7 +10,10 @@ app.post("/api/solution", async (req, res) => {
   try {
     const { prompt, imageUrl } = req.body;
 
-    const GEMINI_KEY = process.env.GEMINI_KEY; // pulled from Render env vars
+    // Get a random key from the list
+    const keys = process.env.GEMINI_KEYS.split(",");
+    const GEMINI_KEY = keys[Math.floor(Math.random() * keys.length)];
+
     const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`;
 
     const parts = [{ text: prompt }];
@@ -24,11 +27,17 @@ app.post("/api/solution", async (req, res) => {
       body: JSON.stringify({ contents: [{ parts }] })
     });
 
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Gemini API failed: ${errText}`);
+    }
+
     const data = await response.json();
     res.json(data);
+
   } catch (err) {
     console.error("Backend error:", err);
-    res.status(500).json({ error: "Failed to fetch from Gemini" });
+    res.status(500).json({ error: "Failed to fetch from Gemini", details: err.message });
   }
 });
 

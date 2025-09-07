@@ -16,7 +16,7 @@ app.post("/api/solution", async (req, res) => {
     const GEMINI_KEY = keys[Math.floor(Math.random() * keys.length)];
 
     // CORRECTED LINE: Changed 'gemini-2.0-flash' to the correct 'gemini-1.5-flash-latest'
-    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_KEY}`;
+    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`;
     
     const parts = [{ text: prompt }];
     

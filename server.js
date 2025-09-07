@@ -15,8 +15,7 @@ app.post("/api/solution", async (req, res) => {
 
     const keys = process.env.GEMINI_KEYS.split(",");
     const GEMINI_KEY = keys[Math.floor(Math.random() * keys.length)];
-    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_KEY}`; // Using a newer model version can be more reliable
-
+    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`;
     const parts = [{ text: prompt }];
     
     // ✅ MODIFICATION 2: Check for the image object and its properties
